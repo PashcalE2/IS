@@ -1,4 +1,4 @@
-def lab1():
+def lab2():
     pass
 
 
@@ -6,4 +6,4 @@ if __name__ == "__main__":
     """
     """
 
-    lab1()
+    lab2()
