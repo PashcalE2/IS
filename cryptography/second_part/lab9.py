@@ -1,11 +1,11 @@
 """
 kG = (384, 276)
 
-r = 384 % 13
+r = 384 % 13 = 7
 
-z = (11^-1) % 13
+z = (11^-1) % 13 = 6
 
-s = (6 * (3 + 3 * 7)) % 13
+s = (6 * (3 + 3 * 7)) % 13 = 1
 
 r, s = (7, 1)
 """
@@ -23,13 +23,13 @@ def lab9(e: int, d: int, k: int):
     print(f"kG = {kG}")
 
     r = kG.x % _n
-    print(f"r = {kG.x} % {_n}")
+    print(f"r = {kG.x} % {_n} = {r}")
 
     z = inverse(k, _n)
-    print(f"z = ({k}^-1) % {_n}")
+    print(f"z = ({k}^-1) % {_n} = {z}")
 
     s = (z * (e + d * r)) % _n
-    print(f"s = ({z} * ({e} + {d} * {r})) % {_n}")
+    print(f"s = ({z} * ({e} + {d} * {r})) % {_n} = {s}")
 
     print(f"r, s = ({r}, {s})")
 

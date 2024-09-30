@@ -31,8 +31,8 @@ def lab1(N: int, e: int, C: str):
     message = ""
     for i, c in enumerate(C.split()):
         m = pow(int(c), d, N)
-        part = m.to_bytes(4, byteorder='big').decode('cp1251')
-        print(f'm{i} = C[{i}]^d mod N = {c}^{d} mod {N} = {m} => text({m}) = {part}')
+        part = m.to_bytes(4, byteorder="big").decode("cp1251")
+        print(f"m{i} = C[{i}]^d mod N = {c}^{d} mod {N} = {m} => text({m}) = {part}")
         message += part
 
     print(f"message = {message}")
