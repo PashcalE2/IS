@@ -1,21 +1,16 @@
 import pandas as pd
 
 
-# TODO: частотный анализ
-
-
 class Alphabet:
     def __init__(
             self,
             first_lower_ord: int,
             first_upper_ord: int,
-            size: int,
-            words_freq: dict[str, float]
+            size: int
     ):
         self.first_lower_ord = first_lower_ord
         self.first_upper_ord = first_upper_ord
         self.size = size
-        self.words_freq = words_freq
 
         self.lowers = [chr(first_lower_ord + i) for i in range(size)]
         self.uppers = [chr(first_upper_ord + i) for i in range(size)]
@@ -39,7 +34,7 @@ class Alphabet:
         return self.is_lower(char) or self.is_upper(char)
 
 
-class Caesar:
+class CaesarMethod:
     def __init__(self, alphabets: list[Alphabet]):
         self.alphabets = alphabets
 
@@ -69,34 +64,35 @@ class Caesar:
         return False
 
 
-# TODO: прочитать частоты из .csv
 _RU = Alphabet(
     first_lower_ord=ord("а"),
     first_upper_ord=ord("А"),
-    size=ord("я") - ord("а") + 1,
-    words_freq={})
+    size=ord("я") - ord("а") + 1)
 
 _EN = Alphabet(
     first_lower_ord=ord("a"),
     first_upper_ord=ord("A"),
-    size=ord("z") - ord("a") + 1,
-    words_freq={})
+    size=ord("z") - ord("a") + 1)
 
-_caesar = Caesar([_RU, _EN])
+_caesar_method = CaesarMethod([_RU, _EN])
 
 
 def lab1(filepath: str, rotates_count: int):
     with open(filepath, "r", encoding="UTF-8") as file:
         filedata = file.read()
 
-    encrypted = _caesar.rotate(filedata, rotates_count)
-    with open("./output.txt", "w", encoding="UTF-8") as file:
+    encrypted = _caesar_method.rotate(filedata, rotates_count)
+    with open("./encrypted.txt", "w", encoding="UTF-8") as file:
         file.write(encrypted)
+
+    decrypted = _caesar_method.rotate(encrypted, -rotates_count)
+    with open("./decrypted.txt", "w", encoding="UTF-8") as file:
+        file.write(decrypted)
 
     words_freq = {}
     left_border = None
     for i in range(len(encrypted)):
-        if _caesar.in_alphabet(encrypted[i]):
+        if _caesar_method.in_alphabet(encrypted[i]):
             if left_border is None:
                 left_border = i
         elif left_border is not None:
@@ -108,7 +104,11 @@ def lab1(filepath: str, rotates_count: int):
             else:
                 words_freq[word] = 1
 
-    print(words_freq)
+    df = pd.DataFrame(
+        data=[[key, words_freq[key], words_freq[key] / sum(words_freq.values())] for key in words_freq],
+        columns=["Слово", "Количество", "Вероятность"])
+
+    print(df.to_string())
 
 
 if __name__ == "__main__":

@@ -2,40 +2,44 @@ import math
 
 
 def lab1(N: int, e: int, C: str):
+    print("Рассчет параметров")
     n = int(math.sqrt(N) + 1)
     print(f"n = int(sqrt({N})) + 1 = {n}")
 
-    i = 0
+    t = n
     while True:
-        i += 1
-        t = n + i
-        w = t ** 2 - N
+        # Перебор t >= n
+        t += 1
+        sub = t ** 2 - N
 
-        sqrt_w = int(math.sqrt(w))
-        if sqrt_w ** 2 == w:
-            sqrt_w = int(sqrt_w)
+        sqrt_sub = int(math.sqrt(sub))
+        if sqrt_sub ** 2 == sub:
             break
 
-    p = t + sqrt_w
-    print(f"p = {t} + {sqrt_w} = {p}")
+    p = t + sqrt_sub
+    print(f"p = {t} + {sqrt_sub} = {p}")
 
-    q = t - sqrt_w
-    print(f"q = {t} - {sqrt_w} = {q}")
+    q = t - sqrt_sub
+    print(f"q = {t} - {sqrt_sub} = {q}")
 
     phi = round((p - 1) * (q - 1))
-    print(f"Phi(N) = ({p - 1}) * ({q - 1}) = {phi}")
+    print(f"ф(N) = {p - 1} * {q - 1} = {phi}")
 
     d = pow(e, -1, phi)
-    print(f"d = {e}^(-1) mod {phi} = {d}", "\n")
+    print(f"d = {e}^(-1) mod {phi} = {d}")
 
-    message = ""
+    print("Дешифровка")
+    result = ""
     for i, c in enumerate(C.split()):
-        m = pow(int(c), d, N)
-        part = m.to_bytes(4, byteorder="big").decode("cp1251")
-        print(f"m{i} = C[{i}]^d mod N = {c}^{d} mod {N} = {m} => text({m}) = {part}")
-        message += part
+        num_block = pow(int(c), d, N)
+        print(f"num_block_{i} = {c}^{d} mod {N} = {num_block}")
 
-    print(f"message = {message}")
+        text_block = num_block.to_bytes(4, byteorder="big").decode("cp1251")
+        print(f"text_block = {text_block}")
+
+        result += text_block
+
+    print(f"Результат = {result}")
 
 
 if __name__ == "__main__":
@@ -56,6 +60,8 @@ if __name__ == "__main__":
     16878504505970
     22744978157662
     23644842894223
+    71614018816334
+    24651499733229
     """
 
     lab1(_N, _e, _C)
