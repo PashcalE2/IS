@@ -30,3 +30,4 @@ real-time systems, reconfigurable systems and systems-on-a-chip are solved.
 Work is underway to develop a methodology for designing
 cyberphysical systems. The direction of work on
 the creation of IP cores for systems-on-a-chip is rapidly developing.
+     
